@@ -1,7 +1,7 @@
 #ifndef SM_TYPES_H_
 #define SM_TYPES_H_
 
-#pragma warning(disable: 4244)
+//#pragma warning(disable: 4244)
 
 #include <stdint.h>
 #include <stdlib.h>

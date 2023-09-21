@@ -16,9 +16,5 @@ args = parser.parse_args()
 
 ROM = util.load_rom(args.rom, disable_hash_check = args.no_hash_check, rom_hack = args.hack)
 
-
-
 import compile_resources
 compile_resources.main(args)
-
-

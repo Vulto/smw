@@ -743,11 +743,11 @@ void DumpCpuHistory() {
 extern int g_dbg_ctr_theirs;
 
 static void cpu_doOpcode(Cpu* cpu, uint8_t opcode) {
-  if (cpu->k & 0x80 || cpu->sp < 0x150 && cpu->sp != 0x100) {
+  if (cpu->k & 0x80 || (cpu->sp < 0x150 && cpu->sp != 0x100)) {
     DumpCpuHistory();
     assert(0);
   }
-  uint32 cur_pc = ((cpu->k << 16) | cpu->pc - 1) & 0x7fffff;
+  uint32 cur_pc = ((cpu->k << 16) | (cpu->pc - 1)) & 0x7fffff;
   pc_hist[pc_hist_ctr] = cur_pc;
   pc_hist_ctr = (pc_hist_ctr + 1) & 15;
   

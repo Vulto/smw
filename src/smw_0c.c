@@ -104,7 +104,7 @@ static const uint8 kDrawCameraFacingEndingYoshis_Prop[4] = { 0x36, 0x36, 0x3a, 0
 static const uint8 kDrawingTheEndMarioLuigiAndPeach_TileData[140] = { 0x53, 0x6a, 0x80, 0x3c, 0x63, 0x6a, 0x82, 0x3c, 0x53, 0x7a, 0xa0, 0x3c, 0x63, 0x7a, 0xa2, 0x3c, 0x53, 0x8a, 0x84, 0x3c, 0x63, 0x8a, 0x86, 0x3c, 0x53, 0x9a, 0xa4, 0x3c, 0x63, 0x9a, 0xa6, 0x3c, 0x53, 0xaa, 0x88, 0x3c, 0x63, 0xaa, 0x8a, 0x3c, 0x8d, 0x5a, 0xa8, 0x3a, 0x9d, 0x5a, 0xaa, 0x3a, 0x8d, 0x6a, 0x8c, 0x3a, 0x9d, 0x6a, 0x8e, 0x3a, 0x8d, 0x7a, 0xac, 0x3a, 0x9d, 0x7a, 0xae, 0x3a, 0x8d, 0x8a, 0x63, 0x3a, 0x9d, 0x8a, 0x65, 0x3a, 0x8d, 0x9a, 0x48, 0x3a, 0x9d, 0x9a, 0x68, 0x3a, 0x8d, 0xaa, 0x6b, 0x3a, 0x9d, 0xaa, 0x6d, 0x3a, 0x78, 0x58, 0x4d, 0x3e, 0x70, 0x68, 0xe0, 0x3f, 0x80, 0x68, 0xc4, 0x3f, 0x70, 0x78, 0x4a, 0x3f, 0x80, 0x78, 0x4c, 0x3f, 0x70, 0x88, 0x6a, 0x3f, 0x80, 0x88, 0x6c, 0x3f, 0x68, 0x98, 0xab, 0x3f, 0x78, 0x98, 0xc8, 0x3f, 0x88, 0x98, 0xe6, 0x3f, 0x68, 0xa8, 0xe8, 0x3f, 0x78, 0xa8, 0xea, 0x3f, 0x88, 0xa8, 0xec, 0x3f,  };
 static const uint8 kCreditsFadeOut_DATA_0CAB1B[2] = { 0xfe, 0x2,  };
 static const uint8 kCreditsFadeOut_DATA_0CAB1D[2] = { 0x0, 0xe0,  };
-static const uint8 kCreditsFadeOut_BGPaletteIndex[8] = { 0x0, 0x18, 0x30, 0x48, 0x60, 0x78, 0x90, 0xa8,  };
+//static const uint8 kCreditsFadeOut_BGPaletteIndex[8] = { 0x0, 0x18, 0x30, 0x48, 0x60, 0x78, 0x90, 0xa8,  };
 static const uint8 kCreditsFadeOut_SkyColorSetting[7] = { 0x6, 0x0, 0x0, 0x2, 0x5, 0x6, 0x0,  };
 static const uint8 kCreditsFadeOut_BGPaletteSetting[7] = { 0x3, 0x3, 0x7, 0x0, 0x1, 0x2, 0x0,  };
 static const uint8 kInitializeEnemyRollcallLayerPositions_DATA_0CADB5[13] = { 0x28, 0x28, 0x44, 0x28, 0x38, 0x20, 0x28, 0x20, 0x8, 0x28, 0x7c, 0x68, 0x28,  };
@@ -247,7 +247,7 @@ void BufferCreditsBackgrounds_0C94C0(uint16 mask) {  // 0c94c0
     do {
       uint16 r2w = p_lo[r4w] | p_hi[r4w] << 8;
       const uint16 *rp = GetMap16RomAddr(13, pointer_map16_tiles[r2w]);
-      uint16 v2 = (4 * r0w) & 0x3F | (2 * ((4 * r0w) & 0xFFC0));
+      uint16 v2 = ((4 * r0w) & 0x3F) | (2 * ((4 * r0w) & 0xFFC0));
       *(uint16 *)&ow_layer2_tiles[v2] = mask & rp[0];
       *(uint16 *)&ow_layer2_tiles[v2 + 64] = mask & rp[1];
       *(uint16 *)&ow_layer2_tiles[v2 + 2] = mask & rp[2];
@@ -803,7 +803,7 @@ void DrawCreditsPeachRedAndYellowYoshi_Peach(uint8 k_in, uint8 j_in, uint16 r0w,
   uint16 j = j_in;
   uint16 k = k_in;
 
-  int16 v2 = k;
+//  int16 v2 = k;
   if (j >= 0x28)
     k = k | 0x100;
   uint8 r4 = 1;
@@ -938,7 +938,7 @@ void CreditsFadeOut() {  // 0cab1f
   mirror_bg1_and2_window_mask_settings = 51;
   if ((blocks_screen_to_place_current_object || flag_message_window_size_change_direction) &&
       (blocks_screen_to_place_current_object < 6 ||
-       blocks_screen_to_place_current_object == 6 && !flag_message_window_size_change_direction)) {
+      (blocks_screen_to_place_current_object == 6 && !flag_message_window_size_change_direction))) {
     v1 = 48;
   }
   mirror_object_and_color_window_settings = v1;
@@ -1138,7 +1138,7 @@ LABEL_10:;
 
     oam->ypos = kGameMode25_ShowEnemyRollcallScreen_TileData[v4 + 1];
     oam->charnum = kGameMode25_ShowEnemyRollcallScreen_TileData[v4 + 2];
-    oam->flags = r0 | kGameMode25_ShowEnemyRollcallScreen_TileData[v4 + 3] & 0xCF;
+    oam->flags = r0 | (kGameMode25_ShowEnemyRollcallScreen_TileData[v4 + 3] & 0xCF);
     v5 = v9 - 4;
     v4 += 4;
     --BYTE(r1w);
@@ -1232,7 +1232,7 @@ void DrawThankYouSpeechBubble() {  // 0cca8f
       oam[120].xpos = kDrawThankYouSpeechBubble_TileData[v0];
       oam[120].ypos = kDrawThankYouSpeechBubble_TileData[v0 + 1];
       oam[120].charnum = kDrawThankYouSpeechBubble_TileData[v0 + 2];
-      oam[120].flags = kDrawThankYouSpeechBubble_TileData[v0 + 3] & 0xCF | 0x20;
+      oam[120].flags = (kDrawThankYouSpeechBubble_TileData[v0 + 3] & 0xCF) | 0x20;
       v3 = v1;
       sprites_oamtile_size_buffer[(v1 >> 2) + 120] = (uint8)(kDrawThankYouSpeechBubble_TileData[v0 + 3] & 0x10) >> 3;
       v1 += 4;
@@ -1769,7 +1769,7 @@ void ProcessMop_EraseColumn() {  // 0cd22d
     stripe_image_upload_data[v1--] = kProcessMop_DATA_0CD1F0[(uint8)v0--];
   while (v0 >= 0);
   LOBYTE(stripe_image_upload) = stripe_image_upload + 12;
-  uint8 r0 = player_xpos + 96;
+ // uint8 r0 = player_xpos + 96;
   uint8 v2 = player_xpos + 96 + ((uint8)(LOBYTE(get_PointU16(l1_l2_scroll_spr_speed, 0)->x) - 56) >> 2);
   int v3 = v2 >> 1;
   int v4 = r1;

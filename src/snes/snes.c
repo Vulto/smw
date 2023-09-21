@@ -20,7 +20,7 @@ extern bool g_is_uploading_apu;
 void RtlSetUploadingApu(bool uploading);
 
 int snes_frame_counter;
-static const double apuCyclesPerMaster = (32040 * 32) / (1364 * 262 * 60.0);
+//static const double apuCyclesPerMaster = (32040 * 32) / (1364 * 262 * 60.0);
 
 static uint8_t snes_readReg(Snes* snes, uint16_t adr);
 static void snes_writeReg(Snes* snes, uint16_t adr, uint8_t val);
@@ -178,7 +178,7 @@ void snes_handle_pos_stuff(Snes *snes) {
 #define IS_ADR(x) (x == 0xfffff)
 
 void snes_runCpu(Snes *snes) {
-  uint32_t pc = snes->cpu->k << 16 | snes->cpu->pc;
+//  uint32_t pc = snes->cpu->k << 16 | snes->cpu->pc;
 
   if (snes->debug_cycles) {
     char line[80];
@@ -421,7 +421,7 @@ uint8_t snes_read(Snes* snes, uint32_t adr) {
       // joypad read disabled
       return 0;
     }
-    if(adr >= 0x4200 && adr < 0x4220 || adr >= 0x4218 && adr < 0x4220) {
+    if((adr >= 0x4200 && adr < 0x4220) || (adr >= 0x4218 && adr < 0x4220)) {
       return snes_readReg(snes, adr); // internal registers
     }
     if(adr >= 0x4300 && adr < 0x4380) {

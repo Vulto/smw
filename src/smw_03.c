@@ -271,8 +271,8 @@ static const uint8 kStandardSpriteToSpriteCollisionChecks_SprClippingDispY[60] =
 static const uint8 kStandardSpriteToSpriteCollisionChecks_SprClippingHeight[60] = { 0xa, 0x15, 0x12, 0x8, 0xe, 0xe, 0x18, 0x30, 0x10, 0x1e, 0x2, 0x3, 0x16, 0x10, 0x14, 0x12, 0x20, 0x40, 0x34, 0x74, 0xc, 0xe, 0x18, 0x45, 0x3a, 0x2a, 0x1a, 0xa, 0x30, 0x1b, 0x20, 0x12, 0x18, 0x18, 0x10, 0x20, 0x38, 0x14, 0x8, 0x18, 0x28, 0x1b, 0x13, 0x4c, 0x10, 0x4, 0x22, 0x20, 0x1c, 0x12, 0x12, 0x12, 0x8, 0x20, 0x2e, 0x14, 0x28, 0xa, 0x10, 0xd,  };
 static const uint8 kStandardSpriteToSpriteCollisionChecks_MarioClipDispY[4] = { 0x6, 0x14, 0x10, 0x18,  };
 static const uint8 kStandardSpriteToSpriteCollisionChecks_MarioClippingHeight[4] = { 0x1a, 0xc, 0x20, 0x18,  };
-static const uint8 kGetDrawInfo_DATA_03B75C[2] = { 0xc, 0x1c,  };
-static const uint8 kGetDrawInfo_DATA_03B75E[2] = { 0x1, 0x2,  };
+// unused static const uint8 kGetDrawInfo_DATA_03B75C[2] = { 0xc, 0x1c,  };
+// unused static const uint8 kGetDrawInfo_DATA_03B75E[2] = { 0x1, 0x2,  };
 static const uint8 kSpr0A1_BowserBowlingBall_BounceYSpeed[38] = { 0x0, 0x0, 0x0, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf7, 0xf6, 0xf5, 0xf4, 0xf3, 0xf2, 0xe8, 0xe8, 0xe8, 0xe8, 0x0, 0x0, 0x0, 0x0, 0xfe, 0xfc, 0xf8, 0xec, 0xec, 0xec, 0xe8, 0xe4, 0xe0, 0xdc, 0xd8, 0xd4, 0xd0, 0xcc, 0xc8,  };
 static const uint8 kSubOffscreen_Bank03[2] = { 0x40, 0xb0,  };
 static const uint8 kSubOffscreen_Bank03_DATA_03B83D[2] = { 0x1, 0xff,  };
@@ -1339,7 +1339,7 @@ void SprXXX_ReflectingEnemy_ReflectingBooBuddiesEntry(uint8 k) {  // 038f7a
 
 void SprXXX_ReflectingEnemy_038FA4(uint8 k) {  // 038fa4
   if (spr_current_status[k] == 8 && !flag_sprites_locked) {
-    if (!(spr_yoffscreen_flag[k] | (counter_local_frames ^ k) & 7) && spr_spriteid[k] == 0xB0)
+    if (!(spr_yoffscreen_flag[k] | ((counter_local_frames ^ k) & 7)) && spr_spriteid[k] == 0xB0)
       SprXXX_ReflectingEnemy_SpawnTrailingBoo(k);
     UpdateNormalSpritePosition_Y(k);
     UpdateNormalSpritePosition_X(k);
@@ -1365,7 +1365,7 @@ void SprXXX_ReflectingEnemy_ReflectingPodobooDraw(uint8 k) {  // 038ff2
   uint8 r0 = v1;
   OamEnt *oam = get_OamEnt(oam_buf, spr_oamindex[k]);
   oam[64].charnum = -84;
-  oam[64].flags = r0 | oam[64].flags & 0x31;
+  oam[64].flags = r0 | (oam[64].flags & 0x31);
 }
 
 void SprXXX_ReflectingEnemy_SpawnTrailingBoo(uint8 k) {  // 039020
@@ -1397,7 +1397,7 @@ void Spr0AE_FishinBoo(uint8 k) {  // 039065
       if (v2 == 16)
         spr_table157c[k] = v1;
     }
-    if (!(spr_decrementing_table15ac[k] | (counter_global_frames + __CFSHL__(8 * k, 1) + 16 * k) & 0x3F))
+    if (!(spr_decrementing_table15ac[k] | ((counter_global_frames + __CFSHL__(8 * k, 1) + 16 * k) & 0x3F)))
       spr_decrementing_table15ac[k] = 32;
     if (timer_disappearing_sprite)
       v1 ^= 1;
@@ -1454,7 +1454,7 @@ void Spr0AE_FishinBoo_Draw(uint8 k) {  // 039180
       v2 = 9;
     }
     oam[64].charnum = v4;
-    uint8 a = sprites_tile_priority | r3 ^ kSpr0AE_FishinBoo_Prop[v2];
+    uint8 a = sprites_tile_priority | (r3 ^ kSpr0AE_FishinBoo_Prop[v2]);
     if (r2 == 0)
       a ^= 0x40;
     oam[64].flags = a;
@@ -1520,7 +1520,7 @@ void Spr0B1_CreateEatBlock(uint8 k) {  // 039284
   FinishOAMWrite(k, 2, 0);
   uint8 v2 = 4;
   if (flag_active_create_eat_block != 0xFF) {
-    if (!(flag_sprites_locked | counter_global_frames & 3))
+    if (!(flag_sprites_locked | (counter_global_frames & 3)))
       io_sound_ch2 = 4;
     v2 = spr_table157c[k];
   }
@@ -1923,7 +1923,7 @@ void Spr0A9_Reznor(uint8 k) {  // 039890
           spr_decrementing_table1558[k] = 64;
         }
         if (!(spr_decrementing_table15ac[k] | spr_decrementing_table1558[k] |
-              (counter_local_frames + __CFSHL__(8 * k, 1) + 16 * k) & 0x3F)) {
+              ((counter_local_frames + __CFSHL__(8 * k, 1) + 16 * k) & 0x3F))) {
           uint8 v14 = spr_table157c[k];
           spr_table157c[k] = CheckPlayerPositionRelativeToSprite_Bank23_X(k);
           if (v14 != spr_table157c[k])
@@ -3480,7 +3480,7 @@ void SubOffscreen_Bank03_03B85F(uint8 k, uint8 r3) {  // 03b85f
     if (want_erase)
       goto LABEL_8;
     if ((spr_property_bits167a[k] & 4) == 0) {
-      uint8 r1 = r3 | counter_global_frames & 1;
+      uint8 r1 = r3 | (counter_global_frames & 1);
       uint16 xpos =
           PAIR16(kSubOffscreen_Bank03_DATA_03B847[r1], kSubOffscreen_Bank03_DATA_03B83F[r1]) + mirror_current_layer1_xpos - GetSprXPos(k);
       uint8 r0 = xpos >> 8;
@@ -3521,7 +3521,7 @@ void CheckIfBabyYoshiCanEatNormalSprite1(uint8 k) {  // 03c02f
     }
   }
   uint8 v5 = ++spr_table1570[k];
-  bool v3 = v5 >= 5;
+//  bool v3 = v5 >= 5;
   if (v5 == 5) {
 LABEL_6:
     yoshi_swallow_timer = 0;
@@ -3567,11 +3567,11 @@ void GameMode14_InLevel_03C11E() {  // 03c11e
   if (!(timer_end_level | flag_sprites_locked)) {
     if (timer_wait_before_next_tilting_platform_phase)
       --timer_wait_before_next_tilting_platform_phase;
-    if (!(timer_wait_before_next_tilting_platform_phase | counter_global_frames & 1)) {
+	if (!(timer_wait_before_next_tilting_platform_phase | (counter_global_frames & 1))) {
       uint8 v0 = counter_direction_to_tilt_platform & 1;
       if (counter_tilting_platform_phase >= 4)
         v0 += 2;
-      misc_m7_rotation = misc_m7_rotation + PAIR16(kGameMode14_InLevel_DATA_03C116[v0], kGameMode14_InLevel_IggyPlatSpeed[v0]) & 0x1ff;
+misc_m7_rotation = (misc_m7_rotation + PAIR16(kGameMode14_InLevel_DATA_03C116[v0], kGameMode14_InLevel_IggyPlatSpeed[v0])) & 0x1ff;
       if ((uint8)misc_m7_rotation == kGameMode14_InLevel_IggyPlatBounds[v0]) {
         ++counter_direction_to_tilt_platform;
         timer_wait_before_next_tilting_platform_phase = 64;
@@ -3960,7 +3960,7 @@ void Spr07A_Fireworks_03C96D(uint8 k) {  // 03c96d
     oam[64].ypos = drt.y;
     oam[64].charnum = kSpr07A_Fireworks_DATA_03C969[spr_table1534[k]] + ((uint8)((counter_global_frames >> 2) & 2) >> 1);
     uint8 r2 = (2 * counter_global_frames) & 0xE;
-    oam[64].flags = r2 | (16 * counter_global_frames) & 0x40 | 0x31;
+    oam[64].flags = r2 | ((16 * counter_global_frames) & 0x40) | 0x31;
     sprites_oamtile_size_buffer[64] = 0;
   }
 }
@@ -4009,12 +4009,12 @@ void Spr07A_Fireworks_03C9E9(uint8 k) {  // 03c9e9
     OamEnt *oam = get_OamEnt(oam_buf, v30);
     oam->xpos = r8 + r2 + v12;
     oam->ypos = r9 + r3;
-    uint8 v31 = v1;
+    //unused uint8 v31 = v1;
     oam->charnum = kSpr07A_Fireworks_DATA_03C9B9[(uint8)(r7 + 10 * (r5 & 3))];
     int8 v15 = r5 >> 1;
     if (r10 != 3)
       v15 ^= r4;
-    oam->flags = v15 & 0xE | 0x31;
+    oam->flags = (v15 & 0xE) | 0x31;
     sprites_oamtile_size_buffer[v13 >> 2] = 0;
     v2 = v13 + 4;
     --v1;
@@ -4059,7 +4059,7 @@ void Spr07A_Fireworks_03C9E9(uint8 k) {  // 03c9e9
     int8 v29 = r5 >> 1;
     if (r10 != 3)
       v29 ^= r4;
-    v28[64].flags = v29 & 0xE | 0x31;
+    v28[64].flags = (v29 & 0xE) | 0x31;
     sprites_oamtile_size_buffer[(v27 >> 2) + 64] = 0;
     v2 = v27 + 4;
   } while (v16-- != 64);
