@@ -12,11 +12,11 @@
 //				"-Wfatal-errors", \
 //				"-pedantic", \
 //				"-pedantic-errors", \
-//				"-Wall", \
 //				"-O0",
 //				"-std=c2x", \
 
-#define CFLAGS  "-fno-strict-aliasing", \
+#define CFLAGS  "-Wall", \
+				"-fno-strict-aliasing", \
 				"-Wno-unused-variable", \
 				"-I/usr/include/SDL2", \
                 "-DSYSTEM_VOLUME_MIXER_AVAILABLE=0", \
