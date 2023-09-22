@@ -1,6 +1,6 @@
 // This file is heavily influenced by Snes9x
 #include "third_party/gl_core/gl_core_3_1.h"
-#include "glsl_shader.h"
+#include "src/glsl_shader.h"
 #include "util.h"
 #include "config.h"
 #include <stdio.h>

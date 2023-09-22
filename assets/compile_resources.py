@@ -887,7 +887,7 @@ extern const uint8 *FindPtrInAsset(int asset, uint32 addr);
       file_data += b'\0'
     file_data += v
 
-  open('smw_assets.dat', 'wb').write(file_data)
+  open('build/smw_assets.dat', 'wb').write(file_data)
 
 def main(args):
   print_all(args)
