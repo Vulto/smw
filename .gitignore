@@ -4,7 +4,7 @@
 /packages/
 /saves/
 *.o
-/smw
+smw
 /smw.sfc
 SDL2.dll
 /smw.exe
