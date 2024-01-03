@@ -278,7 +278,7 @@ uint8 *ApplyBps(const uint8 *src, size_t src_size_in,
   bps += 4;
   uint32 src_size = BpsDecodeInt(&bps);
   uint32 dst_size = BpsDecodeInt(&bps);
-//  uint32 meta_size = BpsDecodeInt(&bps);
+  uint32 meta_size = BpsDecodeInt(&bps);
   uint32 outputOffset = 0;
   uint32 sourceRelativeOffset = 0;
   uint32 targetRelativeOffset = 0;

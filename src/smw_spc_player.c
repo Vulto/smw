@@ -10,7 +10,7 @@
 #include "snes/dsp_regs.h"
 #include "tracing.h"
 
-//#pragma warning (disable: 4267)
+#pragma warning (disable: 4267)
 
 typedef struct Channel {
   uint16 pattern_cur_ptr;
@@ -450,7 +450,7 @@ static void Sfx0_Process(SmwSpcPlayer *p) {
   uint8 cmd;
 
   if (p->new_value_from_snes[0] == 0x12 || p->new_value_from_snes[0] == 0x11 ||
-      (p->base.port_to_snes[0] != 0x11 && p->base.port_to_snes[0] != 0x1d)) {
+      p->base.port_to_snes[0] != 0x11 && p->base.port_to_snes[0] != 0x1d) {
 
     if (p->new_value_from_snes[0] & 0x80) {
       p->smw_tempo_increase = 10;
@@ -576,7 +576,7 @@ static void Sfx3_TurnOffChannel(SmwSpcPlayer *p) {
 static void Sfx3_Process(SmwSpcPlayer *p) {
   uint8 cmd;
 
-  if (p->base.port_to_snes[3] != 0x24 && (p->new_value_from_snes[3] == 0x24 || (p->base.port_to_snes[3] != 0x1d && p->base.port_to_snes[3] != 5))) {
+  if (p->base.port_to_snes[3] != 0x24 && (p->new_value_from_snes[3] == 0x24 || p->base.port_to_snes[3] != 0x1d && p->base.port_to_snes[3] != 5)) {
     if (p->new_value_from_snes[3] != 0) {
       p->base.port_to_snes[3] = p->new_value_from_snes[3];
       p->sfx3_timer = 2;
@@ -714,7 +714,7 @@ static void Sfx1_Process(SmwSpcPlayer *p) {
     // disable yoshi drums
     p->smw_player_on_yoshi = 0;
   } else if (p->new_value_from_snes[1] == 1 ||
-             (p->base.port_to_snes[1] != 1 && p->new_value_from_snes[1] == 4)) {
+             p->base.port_to_snes[1] != 1 && p->new_value_from_snes[1] == 4) {
     // jump & two note sfx
     p->base.port_to_snes[1] = p->new_value_from_snes[1];
     p->sfx1_countdown = 4;
@@ -807,7 +807,7 @@ static void Music_Process(SmwSpcPlayer *p) {
     return;
   }
 
-  if (cmd == 0x16 || cmd == 0x10 || cmd == 0xf || (cmd >= 9 && cmd < 13))
+  if (cmd == 0x16 || cmd == 0x10 || cmd == 0xf || cmd >= 9 && cmd < 13)
     p->smw_tempo_increase = 0;
 
   p->base.port_to_snes[2] = cmd;
@@ -1308,7 +1308,7 @@ static void SmwSpcPlayer_GenerateSamples(SpcPlayer *p_in) {
 }
 
 static void SmwSpcPlayer_Upload(SpcPlayer *p_in, const uint8_t *data) {
-//  const uint8 *data_org = data;
+  const uint8 *data_org = data;
   SmwSpcPlayer *p = (SmwSpcPlayer *)p_in;
   Dsp_Write(p, FLG, 0x60);
   Dsp_Write(p, KOF, 0xff);

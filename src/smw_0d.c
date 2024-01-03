@@ -813,7 +813,7 @@ void ExtObjXX_Generic1TileObject_0DA57F(uint8 k, uint8 a) {  // 0da57f
     SetMap16HighByteForCurrentObject_Page01(v4);
   uint8 r12 = kExtObjXX_Generic1TileObject_Tiles[v5];
   if (v5 == 1 || v5 == 7 || v5 == 50 || v5 == 38 ||
-      (v5 == 27 && ((v6 = v4 & 0xF, (v4 & 0xF) == 1) || v6 == 4 || v6 == 7 || v6 == 10 || v6 == 13))) {
+      v5 == 27 && ((v6 = v4 & 0xF, (v4 & 0xF) == 1) || v6 == 4 || v6 == 7 || v6 == 10 || v6 == 13)) {
     uint16 r8 = misc_item_memory_setting * 0x80 + 0x19f8;
     uint8 r14 = 4 * blocks_screen_to_place_next_object;
     if ((loadlvl_R10 & 0x10) != 0)
@@ -1645,7 +1645,7 @@ void StdObj13_GroundEdgesAndVine(uint8 k) {  // 0db075
   uint8 v4 = HandleVerticalSubScreenCrossingForCurrentObject_HorizontalLevel();
   if ((--r0 & 0x80) == 0) {
     SetMap16HighByteForCurrentObject_Page00(v4);
-    if ((int8)(v2 - 9) >= 0 || ((int8)(v2 - 7) < 0 && (int8)(v2 - 3) >= 0))
+    if ((int8)(v2 - 9) >= 0 || (int8)(v2 - 7) < 0 && (int8)(v2 - 3) >= 0)
       SetMap16HighByteForCurrentObject_Page01(v4);
     uint8 v5 = StdObj13_GroundEdgesAndVine_0DB198(v2, v4, kStdObj13_GroundEdgesAndVine_MiddleTiles1[v2]);
     SetMap16LowByte(v4, v5);
@@ -1653,7 +1653,7 @@ void StdObj13_GroundEdgesAndVine(uint8 k) {  // 0db075
     if ((--r0 & 0x80) == 0) {
       do {
         SetMap16HighByteForCurrentObject_Page00(v4);
-        if ((int8)(v2 - 9) >= 0 || ((int8)(v2 - 7) < 0 && (int8)(v2 - 3) >= 0))
+        if ((int8)(v2 - 9) >= 0 || (int8)(v2 - 7) < 0 && (int8)(v2 - 3) >= 0)
           SetMap16HighByteForCurrentObject_Page01(v4);
         uint8 v6 = StdObj13_GroundEdgesAndVine_0DB198(v2, v4, kStdObj13_GroundEdgesAndVine_MiddleTiles2[v2]);
         SetMap16LowByte(v4, v6);
@@ -1686,7 +1686,7 @@ uint8 StdObj13_GroundEdgesAndVine_0DB114(uint8 k, uint8 j, uint8 a) {  // 0db114
 }
 
 uint8 StdObj13_GroundEdgesAndVine_0DB198(uint8 k, uint8 j, uint8 a) {  // 0db198
-  if (((int8)(k - 3) < 0 || ((int8)(k - 7) >= 0 && (int8)(k - 9) < 0)) && k != 2) {
+  if (((int8)(k - 3) < 0 || (int8)(k - 7) >= 0 && (int8)(k - 9) < 0) && k != 2) {
     uint8 v3 = 29;
     uint8 v4 = ptr_lo_map16_data[j];
     while (v4 != kStdObj13_GroundEdgesAndVine_DATA_0DB15C[v3]) {
@@ -2149,7 +2149,7 @@ void GrassObj39_RightFacingDiagonalPipe(uint8 k) {  // 0db73f
 void GrassObjXX_DiagonalLedge_LeftFacingDiagonalLedgeEntry(uint8 k) {  // 0db7aa
   uint8 v7;
   uint8 j = blocks_sub_scr_pos;
-  //uint8 r0 = blocks_size_or_type & 0xF;
+  uint8 r0 = blocks_size_or_type & 0xF;
   uint8 r2 = blocks_size_or_type & 0xF;
   uint8 r3 = blocks_size_or_type >> 4;
   uint8 r1 = 1;
@@ -2212,7 +2212,7 @@ uint8 GrassObjXX_DiagonalLedge_AddDiagonalBlackLinesToDirt(uint8 j, uint8 a) {  
 
 void GrassObjXX_DiagonalLedge_RightFacingDiagonalLedgeEntry(uint8 k) {  // 0db863
   uint8 v1 = blocks_sub_scr_pos;
- // uint8 r0 = blocks_size_or_type & 0xF;
+  uint8 r0 = blocks_size_or_type & 0xF;
   uint8 r2 = blocks_size_or_type & 0xF;
   uint8 r3 = blocks_size_or_type >> 4;
   uint8 r1 = 1;

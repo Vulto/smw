@@ -5,21 +5,10 @@
 #define DEBUGGER "gf2"
 #define DESTDIR "/usr/local/bin"
 #define CACHE "assets/__pycache__"
-#define CC "clang"
+#define CC "gcc"
 
-//				"-Wextra", \
-//				"-Werror", \
-//				"-Wfatal-errors", \
-//				"-pedantic", \
-//				"-pedantic-errors", \
-//				"-O0",
-//				"-std=c2x", \
-
-#define CFLAGS  "-Wall", \
-				"-fno-strict-aliasing", \
-				"-Wno-unused-variable", \
-				"-I/usr/include/SDL2", \
-                "-DSYSTEM_VOLUME_MIXER_AVAILABLE=0", \
+#define CFLAGS	"-I/usr/include/SDL2",					\
+                "-DSYSTEM_VOLUME_MIXER_AVAILABLE=0",	\
                 "-I."
 
 #define SRCS "smb1/smb1_00.c", \
@@ -67,43 +56,80 @@
              "src/snes/spc.c", \
              "third_party/gl_core/gl_core_3_1.c"
 
-/* TODO:
- *		 buld objs separately
- *		 move build to build folder
- *		 enable warning solve then
- *		 enable extra warnings
- */
+#if 0
+enable warning solve then
+enable extra warnings
 
-int posix_main(int argc, char **argv){
-    if (argc == 1){
-    	CMD(CC, "-o", BIN, SRCS, CFLAGS, "-lm", "-lSDL2", NULL);
-    	CMD("python3", "assets/restool.py", NULL);
+void BuildObj(void) {
+    CMD(CC, "-o", OBJ, "-c", SRCS);
+}
+#endif
+
+void BuildBin(void) {
+    CMD(CC, "-o", BIN, SRCS, CFLAGS, "-lm", "-lSDL2", NULL);
+    CMD("python3", "assets/restool.py", NULL);
+}
+
+void Install(void) {
+	CMD("doas", "cp", BIN, DESTDIR);
+}
+
+void Remove(void) {
+	CMD("doas", "rm", "-v", DESTDIR""BIN);
+}
+
+#if 0
+void Clean(void) {
+	size_t objarr = (sizeof(OBJECTS) / sizeof(OBJECTS[1]));
+	for (int i=0; i < objarr ; i++) {
+		CMD("rm", OBJECTS[i]);
 	}
+	CMD("rm", BIN, "c.old");
+}
+#endif 
 
-    if (argc > 1){
-        if (strcmp(argv[1], "run") == 0){
-            CMD("./"BIN);
-        }else if (strcmp(argv[1], "gdb") == 0){
-            CMD(DEBUGGER, BIN);
-        }else if (strcmp(argv[1], "install") == 0){
-			CMD("doas", "cp", BIN, DESTDIR);
-        }else if (strcmp(argv[1], "remove") == 0){
-			CMD("doas", "rm", "-v", DESTDIR"/"BIN);
-        }else if (strcmp(argv[1], "clean-bin") == 0){
-			CMD("rm -v", BIN);
-        }else if (strcmp(argv[1], "clean-pycache") == 0){
-			CMD("rm -rv", CACHE );
-        }else if (strcmp(argv[1], "clean-all") == 0){
-			CMD("rm -rv", BIN, CACHE);
-        }else{
-            PANIC("%s is unknown subcommand", argv[1]);
-        }
-    }
-    return EXIT_SUCCESS;
+int Usage(void) {
+	printf("Usage");
+	return EXIT_FAILURE;
 }
 
 int main(int argc, char *argv[]) {
+	
     GO_REBUILD_URSELF(argc, argv);
+    if (argc < 2 ){
+		BuildBin();
+		return EXIT_SUCCESS;
+	}
 
-    return posix_main(argc, argv);
+    if (argc < 2) {
+        return 1;
+    }
+
+	for (int i = 1; i < argc; i++) {
+		char *arg = argv[i];
+
+		if (arg[0] == '-') {
+			for (int j = 1; j < strlen(arg); j++) {
+
+				switch (arg[j]) {
+					case 'r':
+						Remove();
+						break;
+					case 'i':
+						Install();
+						break;
+					case 'c':
+//						Clean();
+						break;
+					default:
+						printf("Unknown option: %c\n", arg[j]);
+						break;
+				}
+			}
+		} else {
+			printf("Usage: %s [-d] [-r] [-f]\n", argv[0]);
+		}
+    }
+
+    return EXIT_SUCCESS;
 }

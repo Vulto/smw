@@ -1580,7 +1580,7 @@ void VramFunc_9B5C() {
   WriteReg(MDMAEN, 1u);
   WriteReg(OAMADDH, 0x80u);
   WriteReg(OAMADDL, 0);
-  if (pausemenu_var3 || (VramFunc_9BD4(1u), !vram_flag_028c) && vram_flag_028d) {
+  if (pausemenu_var3 || ((VramFunc_9BD4(1u), !vram_flag_028c) && vram_flag_028d)) {
     WriteRegWord(VMADDL, graphics_upload_vramaddress);
     WriteRegWord(DMAP0, 0x1801u);
     WriteRegWord(A1T0L, graphics_upload_ptr.addr);

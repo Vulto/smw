@@ -8710,7 +8710,7 @@ LABEL_33:
     uint8 v15 = spr_table1602[k];
     OamEnt *oam = get_OamEnt(oam_buf, spr_oamindex[k]);
     oam[64].charnum = kSprXXX_NonBossBoos_BooBlockTiles[v15];
-    oam[64].flags = kSprXXX_NonBossBoos_BooBlockProp[v15] | (oam[64].flags & 0xF1);
+    oam[64].flags = kSprXXX_NonBossBoos_BooBlockProp[v15] | oam[64].flags & 0xF1;
   } else {
     if (spr_current_status[k] == 8)
       CheckPlayerToNormalSpriteCollision(k);
@@ -8778,7 +8778,7 @@ void Spr029_KoopaKid_IggyLarry(uint8 k) {  // 01faf5
       goto LABEL_35;
     }
     UpdateNormalSpritePosition_X(k);
-    if (!(spr_decrementing_table1564[k] | (counter_global_frames & 0x1F))) {
+    if (!(spr_decrementing_table1564[k] | counter_global_frames & 0x1F)) {
       uint8 v8 = spr_table157c[k];
       SprXXX_Generic_Init_MakeSpriteFacePlayer(k);
       if (v8 != spr_table157c[k])
@@ -8942,7 +8942,7 @@ void Spr029_KoopaKid_IggyLarry_Draw(uint8 k, PointU16 pt) {  // 01febc
   int8 v6 = 0;
   if (v4)
     v6 = 0x80;
-  uint8_t r2 = ((uint8)((v5 >> 1) + v6) >> 1) & (0x40 ^ 0x40);
+  uint8 r2 = ((uint8)((v5 >> 1) + v6) >> 1) & 0x40 ^ 0x40;
   uint8 r3 = 4 * spr_table1602[k];
   int8 v7 = 3;
   int8 v13;

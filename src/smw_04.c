@@ -357,7 +357,7 @@ LABEL_52:
       mirror_current_layer2_ypos = ow_scroll_camera_ypos;
       flag_pause = 0;
     } else {
-	  if (pointer_current_overworld_process == 3 || (pointer_current_overworld_process == 4 && !flag_switch_players)) {
+      if (pointer_current_overworld_process == 3 || pointer_current_overworld_process == 4 && !flag_switch_players) {
         if (((io_controller_press2_copyp2 | io_controller_press2_copyp1) & 0x30) != 0)
           pointer_display_overworld_prompt = 1;
         if (!ow_players_map[player_current_character] && (io_controller_press1 & 0x10) != 0 && !(++flag_pause >> 1)) {
@@ -388,7 +388,7 @@ LABEL_51:
         goto LABEL_52;
       }
       GameMode0E_ShowOverworld_UpdateMainMapFreeScrollingPosition(0, 2 * (io_controller_hold1 & 3));
-	  GameMode0E_ShowOverworld_UpdateMainMapFreeScrollingPosition(2, ((uint8)((io_controller_hold1 & 0xC) | 0x10)) >> 1);
+      GameMode0E_ShowOverworld_UpdateMainMapFreeScrollingPosition(2, (uint8)(io_controller_hold1 & 0xC | 0x10) >> 1);
       v15 = 21;
       if ((counter_global_frames & 0x18) != 0)
         goto LABEL_41;
@@ -588,7 +588,7 @@ uint8 DrawOverworldPlayer_DrawCurrentPlayer(uint8 k_in, uint8 j, PointU8 pt, uin
   uint16 v5;
   uint16 k = k_in;
 
-//unused  int16 v2 = k;
+  int16 v2 = k;
   v3 = j >> 1;
   if (players_has_yoshi[(uint8)v3]) {
     uint16 yoshi = players_has_yoshi[(uint8)v3];
@@ -610,7 +610,7 @@ uint8 DrawOverworldPlayer_DrawCurrentPlayer(uint8 k_in, uint8 j, PointU8 pt, uin
         uint16 v13 = *(uint16 *)&kOwSpriteTilemapYoshi[v12];
         uint16 v14;
         if ((v11 & 0xF00) == 512) {
-          v14 = kOwYoshiPalette[(yoshi - 4) >> 1] | (v13 & 0xF0FF);
+          v14 = kOwYoshiPalette[(yoshi - 4) >> 1] | v13 & 0xF0FF;
         } else {
           v14 = r4w + v13;
         }
@@ -659,7 +659,7 @@ void GameMode0C_LoadOverworld_048D91() {  // 048d91
     v1 = 10;
   LOBYTE(ow_players_animation[1]) = v1;
   GameMode0C_LoadOverworld_048E55();
-  if (!(misc_exit_level_action < 8) || (misc_exit_level_action & 0x80) != 0 || ow_level_number_lo != 24) {
+  if (!(misc_exit_level_action << 8) || (misc_exit_level_action & 0x80) != 0 || ow_level_number_lo != 24) {
     if (misc_currently_active_boss_end_cutscene) {
       *(uint16 *)&misc_currently_active_boss_end_cutscene = yoshi_current_yoshi_color << 8;
       PointU16 *pt = get_PointU16(ow_players_pos, player_current_characterx4);
@@ -728,7 +728,7 @@ void OwProcess00_OverworldEntryInitialization() {  // 048ef1
     if (flag_got_midpoint && misc_exit_level_action) {
       if ((misc_exit_level_action & 0x80) == 0) {
         *(uint16 *)&ow_level_tile_settings[ow_level_number_of_each_tiletbl[r4w]] =
-            (*(uint16 *)&ow_level_tile_settings[ow_level_number_of_each_tiletbl[r4w]] & 0xFF3F) | 0x80;
+            *(uint16 *)&ow_level_tile_settings[ow_level_number_of_each_tiletbl[r4w]] & 0xFF3F | 0x80;
         ++*(uint16 *)&pointer_current_overworld_process;
         goto LABEL_11;
       }
@@ -890,7 +890,7 @@ LABEL_18:;
       if ((int8)--LOBYTE(v11->x) < 0) {
         LOBYTE(v11->x) = 0;
         *((uint8 *)ow_players_animation + (((uint8)player_current_characterx4 >> 1) & 2)) =
-            (*((uint8 *)ow_players_animation + (((uint8)player_current_characterx4 >> 1) & 2)) & 8) | 2;
+            *((uint8 *)ow_players_animation + (((uint8)player_current_characterx4 >> 1) & 2)) & 8 | 2;
       }
       goto LABEL_63;
     }
@@ -952,7 +952,7 @@ LABEL_62:;
         get_PointU16(players_overworld_xpos_is_going_to, v26)->x = v27;
         r0w = j;
         int v28 = (uint16)((v26 >> 1) & 2) >> 1;
-        ow_players_animation[v28] = j | (ow_players_animation[v28] & 8);
+        ow_players_animation[v28] = j | ow_players_animation[v28] & 8;
         get_PointU16(l1_l2_scroll_spr_sub_pos, 0)->x = 15;
         ++*(uint16 *)&pointer_current_overworld_process;
         *(uint16 *)l1_l2_scroll_spr_timer = 0;
@@ -1141,7 +1141,7 @@ LABEL_42:
       r4w = kOwTilePathDirection_049F49[v26];
       v24 = kOwTileDistanceMovedAcross_049EA7[v26];
     } else {
-      if (v42 == 128 || (v42 >= 0x6A && v42 < 0x6E)) {
+      if (v42 == 128 || v42 >= 0x6A && v42 < 0x6E) {
         int v21 = (uint16)((player_current_characterx4 >> 1) & 2) >> 1;
         ow_players_animation[v21] |= 8;
       } else {
@@ -1524,7 +1524,7 @@ uint16 LoadOverworldLayer1AndEvents_InitializedOverworldLayer1Tilemap(uint16 k, 
 
 void LoadOverworldLayer1AndEvents_04D7F2() {  // 04d7f2
   if (kOwLayer1AndEvents_SIZE) {
-    //int len = DecompressTo(kOwLayer1AndEvents, g_ram + 0xd000);  // 0x1000 bytes
+    int len = DecompressTo(kOwLayer1AndEvents, g_ram + 0xd000);  // 0x1000 bytes
     if (kOwLayer1AndEvents2_SIZE)
       DecompressTo(kOwLayer1AndEvents2, g_ram + 0x1c800);
   } else {
@@ -1711,7 +1711,7 @@ void SubmapSwitchProcess01_UpdateLayer1() {  // 04dcb6
     uint16 r2w = blocks_map16_table_lo[r0w] | blocks_map16_table_hi[r0w] << 8;
     uint16 v0 = 8 * r2w;
     r2w = (4 * (uint8)r0w) & 0x3F;
-    uint16 v1 = r2w | ((8 * (uint8)r0w) & 0xF80);
+    uint16 v1 = r2w | (8 * (uint8)r0w) & 0xF80;
     *(uint16 *)&ow_byte_7EE000[v1 + 0x400] = WORD(p0[v0]);
     v0 += 2;
     *(uint16 *)&ow_byte_7EE000[v1 + 0x440] = WORD(p0[v0]);
@@ -2125,7 +2125,7 @@ void OwEventProcess04_FadeInLayer2Tile() {  // 04eaa4
         OamEnt *oam = get_OamEnt(oam_buf, v0);
         oam[84].ypos = pt.y;
         oam[84].charnum = kOverworldLayer2EventTilemap_Tiles[v2];
-		oam[84].flags = (ow_layer2_event_tiles[v2] & 0xC0) | (((uint8)(ow_layer2_event_tiles[v2] & 0x1C) >> 1) | 0x11);
+        oam[84].flags = ow_layer2_event_tiles[v2] & 0xC0 | ((uint8)(ow_layer2_event_tiles[v2] & 0x1C) >> 1) | 0x11;
         uint8 v5 = r2;
         oam[84].xpos = r2;
         v3 = v5 + 8;
@@ -2378,7 +2378,7 @@ void DrawFlyingSwitchBlocks() {  // 04f290
         v11 = 0;
       r15 = v11;
       ++v4;
-    } while ((v4 < switch_block_event_blocks_thrown_ctr || switch_block_event_ejection_counter >= 5) && v4 < 0x28);
+    } while (v4 < switch_block_event_blocks_thrown_ctr || switch_block_event_ejection_counter >= 5 && v4 < 0x28);
   } else {
     misc_color_of_palace_switch_pressed1 = 0;
   }
@@ -2461,7 +2461,7 @@ void OwPrompt03_OverworldLifeExchanger() {  // 04f513
   if ((io_controller_press1_copyp1 & 0xC0) != 0)
     goto LABEL_6;
   if ((io_controller_press1_copyp2 & 0xC0) != 0) {
-    v0 = io_controller_press1_copyp2 & (0xC0 ^ 0xC0);
+    v0 = io_controller_press1_copyp2 & 0xC0 ^ 0xC0;
 LABEL_6:;
     bool v1 = __CFSHL__(v0, 1);
     if (__CFSHL__(v0, 1) != flag_who_gets_lives_in_exchange_menu)
@@ -2764,7 +2764,7 @@ void OWSpr03_CheepCheep(uint8 k) {  // 04fa3e
       int8 v5 = 0;
       if (v3)
         v5 = 0x80;
-      owspr_table0df5[k] = (((uint8)((v4 >> 1) + v5) >> 1) & 0x40) | 0x12;
+      owspr_table0df5[k] = ((uint8)((v4 >> 1) + v5) >> 1) & 0x40 | 0x12;
       owspr_zspeed[k] = 36;
       io_sound_ch1 = 14;
       OWSpr03_CheepCheep_04FA7D(k);
@@ -2876,7 +2876,7 @@ void OWSpr06_KoopaKid(uint8 k) {  // 04fb98
   if (!owspr_table0df5[k]) {
     if ((uint8)(ow_tile_player_is_standing_on - 73) >= 3)
       return;
-//unused    uint8 v1 = ow_tile_player_is_standing_on - 73;
+    uint8 v1 = ow_tile_player_is_standing_on - 73;
     owspr06_koopa_kid_tile_index = ow_tile_player_is_standing_on - 73;
     uint8 v2 = ow_tile_player_is_standing_on - 73;
     if ((kOWSpr06_KoopaKid_DATA_04FB85[(uint8)(ow_tile_player_is_standing_on - 73)] & owspr06_koopa_kid_activate_flag) != 0)
@@ -2962,7 +2962,7 @@ void OWSpr08_BowserSign(uint8 k) {  // 04fce1
   uint8 r5 = 111;
   uint8 v1 = kOverworldSpriteOAMIndexes[k];
   do {
-    HIBYTE(v2) = ((counter_global_frames >> 1) & 6) | 0x30;
+    HIBYTE(v2) = (counter_global_frames >> 1) & 6 | 0x30;
     LOBYTE(v2) = r5;
     v1 = OWSpr03_CheepCheep_GenericOverworldSpriteGFXRt_Draw8x8(v1, v2, pt);
     BYTE(pt.x) -= 8;
