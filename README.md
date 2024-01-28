@@ -17,7 +17,8 @@ It uses the PPU and DSP implementation from [LakeSnes](https://github.com/elzo-d
 
 ./c
 
-When running, it runs an emulated version in the background and compares the ram state every frame. If it detects a mismatch, it saves a snapshot in saves/ and displays a counter on screen counting down from 300. Please submit these bug snapshots on discord so that they can be fixed.
+## How it Works?
+It runs an emulated version in the background and compares the ram state every frame. If it detects a mismatch, it saves a snapshot in saves/ and displays a counter on screen counting down from 300. Please submit these bug snapshots on discord so that they can be fixed.
 
 ## Usage and controls
 
