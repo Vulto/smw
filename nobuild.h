@@ -1,25 +1,3 @@
-#ifndef NOBUILD_H_
-#define NOBUILD_H_
-
-#ifndef _WIN32
-#    define _POSIX_C_SOURCE 200809L
-#    include <sys/types.h>
-#    include <sys/wait.h>
-#    include <sys/stat.h>
-#    include <unistd.h>
-#    include <dirent.h>
-#    include <fcntl.h>
-#    include <limits.h>
-#    define PATH_SEP "/"
-typedef pid_t Pid;
-typedef int Fd;
-#else
-#    define WIN32_MEAN_AND_LEAN
-#    include "windows.h"
-#    include <process.h>
-#    define PATH_SEP "\\"
-typedef HANDLE Pid;
-typedef HANDLE Fd;
 // minirent.h HEADER BEGIN ////////////////////////////////////////
 // Copyright 2021 Alexey Kutepov <reximkut@gmail.com>
 //
@@ -53,6 +31,175 @@ typedef HANDLE Fd;
 // ChangeLog (https://semver.org/ is implied)
 //
 //    0.0.1 First Official Release
+
+#ifndef NOBUILD_H_
+#define NOBUILD_H_
+
+#include <stddef.h>
+
+static const char *SOURCES[]={
+  "smb1/smb1_00.c",  
+  "smb1/smb1_01.c", 
+  "smb1/smb1_02.c", 
+  "smb1/smb1_08.c", 
+  "smb1/smb1_cpu_infra.c",              
+  "smb1/smb1_spc_player.c",         
+  "smbll/smbll_00.c",                   
+  "smbll/smbll_01.c",                   
+  "smbll/smbll_02.c",                   
+  "smbll/smbll_08.c",                   
+  "smbll/smbll_0b.c",                   
+  "smbll/smbll_cpu_infra.c",            
+  "src/common_cpu_infra.c",             
+  "src/common_rtl.c",                   
+  "src/config.c",                       
+  "src/glsl_shader.c",                  
+  "src/lm.c",                           
+  "src/main.c",                         
+  "src/opengl.c",                       
+  "src/smw_00.c",                       
+  "src/smw_01.c",                       
+  "src/smw_02.c",                       
+  "src/smw_03.c",                       
+  "src/smw_04.c",                       
+  "src/smw_05.c",                       
+  "src/smw_07.c",                       
+  "src/smw_0c.c",                       
+  "src/smw_0d.c",                       
+  "src/smw_cpu_infra.c",                
+  "src/smw_rtl.c",                      
+  "src/smw_spc_player.c",               
+  "src/tracing.c",                      
+  "src/util.c",                         
+  "src/snes/apu.c",                     
+  "src/snes/cart.c",                    
+  "src/snes/cpu.c",                     
+  "src/snes/dma.c",                     
+  "src/snes/dsp.c",                     
+  "src/snes/ppu.c",                     
+  "src/snes/ppu_old.c",                 
+  "src/snes/snes.c",                    
+  "src/snes/snes_other.c",              
+  "src/snes/spc.c",                     
+  "src/gl_core_3_1.c"
+};
+
+static const char *OBJECTS[]={
+  "smb1/smb1_00.o",  
+  "smb1/smb1_01.o", 
+  "smb1/smb1_02.o", 
+  "smb1/smb1_08.o", 
+  "smb1/smb1_cpu_infra.o",              
+  "smb1/smb1_spc_player.o",         
+  "smbll/smbll_00.o",                   
+  "smbll/smbll_01.o",                   
+  "smbll/smbll_02.o",                   
+  "smbll/smbll_08.o",                   
+  "smbll/smbll_0b.o",                   
+  "smbll/smbll_cpu_infra.o",            
+  "src/common_cpu_infra.o",             
+  "src/common_rtl.o",                   
+  "src/config.o",                       
+  "src/glsl_shader.o",                  
+  "src/lm.o",                           
+  "src/main.o",                         
+  "src/opengl.o",                       
+  "src/smw_00.o",                       
+  "src/smw_01.o",                       
+  "src/smw_02.o",                       
+  "src/smw_03.o",                       
+  "src/smw_04.o",                       
+  "src/smw_05.o",                       
+  "src/smw_07.o",                       
+  "src/smw_0c.o",                       
+  "src/smw_0d.o",                       
+  "src/smw_cpu_infra.o",                
+  "src/smw_rtl.o",                      
+  "src/smw_spc_player.o",               
+  "src/tracing.o",                      
+  "src/util.o",                         
+  "src/snes/apu.o",                     
+  "src/snes/cart.o",                    
+  "src/snes/cpu.o",                     
+  "src/snes/dma.o",                     
+  "src/snes/dsp.o",                     
+  "src/snes/ppu.o",                     
+  "src/snes/ppu_old.o",                 
+  "src/snes/snes.o",                    
+  "src/snes/snes_other.o",              
+  "src/snes/spc.o",                     
+  "src/gl_core_3_1.o"
+};
+
+#define sources             \
+  "smb1/smb1_00.o",  	      \
+  "smb1/smb1_01.o", 	      \
+  "smb1/smb1_02.o", 	      \
+  "smb1/smb1_08.o", 	      \
+  "smb1/smb1_cpu_infra.o",  \
+  "smb1/smb1_spc_player.o", \
+  "smbll/smbll_00.o",       \
+  "smbll/smbll_01.o",       \
+  "smbll/smbll_02.o",       \
+  "smbll/smbll_08.o",       \
+  "smbll/smbll_0b.o",       \
+  "smbll/smbll_cpu_infra.o",\
+  "src/common_cpu_infra.o", \
+  "src/common_rtl.o",       \
+  "src/config.o",           \
+  "src/glsl_shader.o",      \
+  "src/lm.o",               \
+  "src/main.o",             \
+  "src/opengl.o",           \
+  "src/smw_00.o",           \
+  "src/smw_01.o",           \
+  "src/smw_02.o",           \
+  "src/smw_03.o",           \
+  "src/smw_04.o",           \
+  "src/smw_05.o",           \
+  "src/smw_07.o",           \
+  "src/smw_0c.o",           \
+  "src/smw_0d.o",           \
+  "src/smw_cpu_infra.o",    \
+  "src/smw_rtl.o",          \
+  "src/smw_spc_player.o",   \
+  "src/tracing.o",          \
+  "src/util.o",             \
+  "src/snes/apu.o",         \
+  "src/snes/cart.o",        \
+  "src/snes/cpu.o",         \
+  "src/snes/dma.o",         \
+  "src/snes/dsp.o",         \
+  "src/snes/ppu.o",         \
+  "src/snes/ppu_old.o",     \
+  "src/snes/snes.o",        \
+  "src/snes/snes_other.o",  \
+  "src/snes/spc.o",         \
+  "src/gl_core_3_1.o"	
+
+  size_t srcCount = (sizeof(SOURCES) / sizeof(SOURCES[1]));
+  size_t ObjCount = (sizeof(OBJECTS) / sizeof(OBJECTS[1]));
+
+
+#ifndef _WIN32
+#    define _POSIX_C_SOURCE 200809L
+#    include <sys/types.h>
+#    include <sys/wait.h>
+#    include <sys/stat.h>
+#    include <unistd.h>
+#    include <dirent.h>
+#    include <fcntl.h>
+#    include <limits.h>
+#    define PATH_SEP "/"
+typedef pid_t Pid;
+typedef int Fd;
+#else
+#    define WIN32_MEAN_AND_LEAN
+#    include "windows.h"
+#    include <process.h>
+#    define PATH_SEP "\\"
+typedef HANDLE Pid;
+typedef HANDLE Fd;
 
 #ifndef MINIRENT_H_
 #define MINIRENT_H_

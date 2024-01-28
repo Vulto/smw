@@ -1,17 +1,19 @@
 // This file is heavily influenced by Snes9x
-#include "third_party/gl_core/gl_core_3_1.h"
+#include "gl_core_3_1.h"
 #include "glsl_shader.h"
 #include "util.h"
 #include "config.h"
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
+
 #define STB_IMAGE_IMPLEMENTATION
 #define STBI_NO_THREAD_LOCALS
 #define STBI_ONLY_PNG
 #define STBI_MAX_DIMENSIONS 4096
 #define STBI_NO_FAILURE_STRINGS
-#include "third_party/stb/stb_image.h"
+
+#include "stb_image.h"
 
 static GlslPass *ParseConfigKeyPass(GlslShader *gs, const char *key, const char *match) {
   char *endp;

@@ -13,7 +13,7 @@
 #include <unistd.h>
 #endif
 
-#include "assets/smw_assets.h"
+#include "smw_assets.h"
 
 #include "snes/ppu.h"
 
@@ -29,7 +29,7 @@
 #include "switch_impl.h"
 #endif
 
-#include "assets/smw_assets.h"
+#include "smw_assets.h"
 
 typedef struct GamepadInfo {
   uint32 modifiers;
