@@ -483,7 +483,7 @@ void ParseConfigFile(const char *filename) {
 
   if (filename != NULL || !ParseOneConfigFile("smw.user.ini", 0)) {
     if (filename == NULL)
-      filename = "smw.ini";
+      filename = "build/smw.ini";
     if (!ParseOneConfigFile(filename, 0))
       fprintf(stderr, "Warning: Unable to read config file %s\n", filename);
   }

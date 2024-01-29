@@ -958,7 +958,7 @@ static void SwitchDirectory(void) {
   size_t pos = strlen(buf);
 
   for (int step = 0; pos != 0 && step < 3; step++) {
-    memcpy(buf + pos, "/smw.ini", 9);
+    memcpy(buf + pos, "/build/smw.ini", 9);
     FILE *f = fopen(buf, "rb");
     if (f) {
       fclose(f);

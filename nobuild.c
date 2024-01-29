@@ -29,11 +29,11 @@ void Link(void) {
 }
 
 /* TODO
- * Get rid of stupidity arrays and macros for sources and  objects definition
- * create dir tree for objects in build
- * Create a friendly menu
+ * Get rid of stupidity arrays and macros for sources and objects definition
+ * create dirs tree for objects in build
+ * Create a friendly menu to toggle features
   
-void Compile() {
+void Compile(void) {
   CMD(CC, "-o", BIN, CFLAGS, sources, NULL);
 }
 */
