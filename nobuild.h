@@ -177,10 +177,6 @@ static const char *OBJECTS[]={
   "src/snes/spc.o",         \
   "src/gl_core_3_1.o"	
 
-  size_t srcCount = (sizeof(SOURCES) / sizeof(SOURCES[1]));
-  size_t ObjCount = (sizeof(OBJECTS) / sizeof(OBJECTS[1]));
-
-
 #ifndef _WIN32
 #    define _POSIX_C_SOURCE 200809L
 #    include <sys/types.h>

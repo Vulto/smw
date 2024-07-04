@@ -13,12 +13,18 @@ You need a copy of the ROM to extract game resources (levels, images). Then once
 
 It uses the PPU and DSP implementation from [LakeSnes](https://github.com/elzo-d/LakeSnes), but with lots of speed optimizations.
 
+## Requirements
+TCC
+SDL2
+A rom that has this exact hash 6B47BB75D16514B6A476AA0C73A683A2A4C18765.
+
+You can check the hash running `python /assets/restool.py`
+
 ## Building
 
-./c
+tcc -run nobuild.c 
 
-## How it Works?
-It runs an emulated version in the background and compares the ram state every frame. If it detects a mismatch, it saves a snapshot in saves/ and displays a counter on screen counting down from 300.
+The game will be on build folder, enjoy!
 
 ## Usage and controls
 
@@ -59,3 +65,6 @@ Additionally, the following commands are available:
 | Alt+Enter | Toggle Fullscreen     |
 | Shift+F1-F10 | Save snapshot |
 | Ctrl+F1-F10 | Replay the snapshot |
+
+## How it Works?
+It runs an emulated version in the background and compares the ram state every frame. If it detects a mismatch, it saves a snapshot in saves/ and displays a counter on screen counting down from 300.

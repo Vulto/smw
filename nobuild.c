@@ -16,12 +16,15 @@
   "-I.",                              \
   "-lm"
 
+size_t srcCount = (sizeof(SOURCES) / sizeof(SOURCES[1]));
+size_t ObjCount = (sizeof(OBJECTS) / sizeof(OBJECTS[1]));
+
 
 void Compile(void) {
+  CMD("python3", "assets/restool.py", NULL);
   for (int i=0; i < srcCount ; i++) {
 		CMD(CC, "-c", CFLAGS, "-o", OBJECTS[i], SOURCES[i], NULL);
   }
-  CMD("python3", "assets/restool.py", NULL);
 }
 
 void Link(void) {

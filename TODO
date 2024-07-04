@@ -1,0 +1,7 @@
+
+fix output path for assets_dat
+Separate hash check from assets extractor script
+Rewrite python script into C
+refact nobuild.h
+improve flags for nobuild
+Explain when to put the rom and wich name should have
